@@ -1,9 +1,8 @@
 package com.springframework5.webapplication.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Publisher {
@@ -17,6 +16,10 @@ public class Publisher {
     private String city;
     private String state;
     private String zip;
+
+    @OneToMany
+    @JoinColumn(name = "publisher_id")
+    private Set<Book> books = new HashSet<>();
 
     public Publisher() {
     }
@@ -34,7 +37,10 @@ public class Publisher {
         return "Publisher{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", address='" + addressLine1 + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
                 '}';
     }
 
@@ -53,6 +59,14 @@ public class Publisher {
         return id != null ? id.hashCode() : 0;
     }
 
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
     public Long getId() {
         return id;
     }
@@ -69,11 +83,11 @@ public class Publisher {
         this.name = name;
     }
 
-    public String getAddress() {
+    public String getAddressLine1() {
         return addressLine1;
     }
 
-    public void setAddress(String addressLine1) {
+    public void setAddressLine1(String addressLine1) {
         this.addressLine1 = addressLine1;
     }
 

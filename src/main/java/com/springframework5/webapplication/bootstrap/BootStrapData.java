@@ -25,29 +25,36 @@ public class BootStrapData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        Publisher porrua = new Publisher("Librería de Porrúa Hermanos y Cía. S.A de C.V","República de Argentina 17, Centro","Cuauhtemoc","CDMX.","06800");
+
+        publisherRepository.save(porrua);
+
         Author eric = new Author("Eric","Evans");
         Book ddd = new Book("Domain Driven Design","123123");
         eric.getBooks().add(ddd);
         ddd.getAuthors().add(eric);
+        ddd.setPublisher(porrua);
+        porrua.getBooks().add(ddd);
 
         authorRepository.save(eric);
         bookRepository.save(ddd);
+        publisherRepository.save(porrua);
 
         Author rod = new Author("Rod","Johnson");
         Book noEJB = new Book("J2EE Develoment without EJB","3939459459");
         rod.getBooks().add(noEJB);
         noEJB.getAuthors().add(rod);
+        noEJB.setPublisher(porrua);
+        porrua.getBooks().add(noEJB);
 
         authorRepository.save(rod);
         bookRepository.save(noEJB);
+        publisherRepository.save(porrua);
 
         System.out.println("Started in bootstrap");
         System.out.println("Number of Books:" + bookRepository.count());
 
-        Publisher porrua = new Publisher("Librería de Porrúa Hermanos y Cía. S.A de C.V","República de Argentina 17, Centro","Cuauhtemoc","CDMX.","06800");
-
-        publisherRepository.save(porrua);
-
         System.out.println("Number of publishers:" + publisherRepository.count());
+        System.out.println("Publisher number of books:" + porrua.getBooks().size());
     }
 }
